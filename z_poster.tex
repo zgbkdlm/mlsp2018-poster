@@ -140,15 +140,16 @@
 
 \vspace{0.008\linewidth} % Increase the top margin
 
-\begin{minipage}[t]{0.28\linewidth} % logo
+\begin{minipage}[t]{0.2\linewidth} % logo
 \vspace{0pt} % Alingns the parallel minipages on top
+\hspace{0.1\linewidth}
 
 %% Choose the logo or use random generator
-\AaltoLogoLarge{1.55}{''}{aaltoYellow} % Chosen logo, scaled for A1 size
+\AaltoLogoLarge{2}{?}{aaltoYellow} % Chosen logo, scaled for A1 size
 %\AaltoLogoRandomLarge{1.55} % Random logo, scaled for A1 size
 
 \end{minipage} % no empty line before the next begin
-\begin{minipage}[t]{0.7\linewidth} % title
+\begin{minipage}[t]{0.8\linewidth} % title
 \vspace{0pt} % Alingns the parallel minipages on top
 
 
@@ -184,9 +185,7 @@
 
 % Aalto-fancy title, use \baselinestretch to change linespacing, \textit{} for italic text, \textcolor for colored text
 {\renewcommand{\baselinestretch}{0.5} % Changes the baseline skip smaller for the title
-\begin{flushleft}
 	\textcolor{aaltoBlue}{\veryHuge{\bfseries{\textsf{Spectro-Temporal ECG Analysis For Atrial Fibrillation Detection}}}}	
-\end{flushleft}
  % Text size for a1 posters
 \par} % <- for \baselinestretch
 
@@ -198,7 +197,7 @@
 
 \vspace{0.01\linewidth} % Empty space after the title
 
-\normalsize{\textsf{\bfseries{Zheng Zhao, Simo Särkkä, and Ali Bahrami Rad}}} % Text size for a1 posters
+\large{\textsf{\bfseries{Zheng Zhao, Simo Särkkä, and Ali Bahrami Rad}}} % Text size for a1 posters
 
 \textcolor{aaltoGray}{\textsf{\bfseries{Department of Electrical Engineering and Automation, Aalto University}}}
 %
@@ -280,7 +279,26 @@ b_j(t_k) &= \psi^b_{jk} \, b_j(t_{k-1}) + w^b_{jk}, \\
 \label{eq:discdyn}
 \end{equation}
 %
-where $\psi^a_{jk} = \exp(-\lambda^a_j \, (t_k - t_{k-1})), \psi^b_{jk} = \exp(-\lambda^b_j \, (t_k - t_{k-1}))$, $w^a_{jk} \sim \mathcal{N}(0,\Sigma^a_{jk}), w^b_{jk} \sim \mathcal{N}(0,\Sigma^b_{jk})$, $\Sigma^a_{jk} = q^a_j \, (1 - \exp(-2 \lambda^a_j \, (t_k - t_{k-1})))$, and $\Sigma^b_{jk} = q^b_j \, (1 - \exp(-2 \lambda^b_j \, (t_k - t_{k-1})))$.
+where $\psi^a_{jk} = \exp(-\lambda^a_j \, (t_k - t_{k-1})), \psi^b_{jk} = \exp(-\lambda^b_j \, (t_k - t_{k-1}))$, $w^a_{jk} \sim \mathcal{N}(0,\Sigma^a_{jk}), w^b_{jk} \sim \mathcal{N}(0,\Sigma^b_{jk})$, $\Sigma^a_{jk} = q^a_j \, (1 - \exp(-2 \lambda^a_j \, (t_k - t_{k-1})))$, and $\Sigma^b_{jk} = q^b_j \, (1 - \exp(-2 \lambda^b_j \, (t_k - t_{k-1})))$. If we assume the input signal is noisy measurements from Fourier series \eqref{equ:fourier_series} and times $t_1,t_2,\ldots$, we can then model the time-varying system in state space, where state $\mathbf{x} = [a_{0}, a_{1}, ..., a_{M}, b_{1}, b_{2}, ..., b_{M}]^T$, and $\mathbf{H}_k = [1, \sin(2\pi f_0 t_k), \ldots, \sin(2\pi M \, f_0 \, t_k), \cos(2\pi f_0 t_k), \ldots, \cos(2\pi f_M t_j)]$, which gives $\mathbf{H}_k \mathbf{x}=z(t_k)$. The discrete-time dynamic model is written as:
+
+\begin{equation}
+\begin{split}
+\mathbf{x}_k &= \mathbf{A}_{k} \mathbf{x}_{k-1} + \mathbf{q}_{k} \\
+y_k &= \mathbf{H}_k \mathbf{x}_k + r_k.
+\end{split}
+\label{eq:dynmodel}
+\end{equation}
+
+where $\mathbf{A}_k$ contains the terms $\psi^a_{jk}$ and $\phi^b_{jk}$ on the diagonal and $ \mathbf{q}_{k} \sim \mathcal{N}(\mathbf{0},\mathbf{Q}_k)$ where $\mathbf{Q}_k$ contains the terms $\Sigma^a_{jk}$ and $\Sigma^b_{jk}$ on the diagonal.
+
+% The end of the first column and the start of the second
+\end{minipage} % no empty line before the next ``\begin''
+\hspace{0.03\linewidth} % Middle margin
+\begin{minipage}[t]{0.47\linewidth}
+\setlength{\parindent}{10mm} % Paragraph indent
+\Large
+
+\section{Still one section}
 
 Let us now assume that we obtain noisy measurements of the Fourier series \eqref{equ:fourier_series} and times $t_1,t_2,\ldots$. What we can now do is to stack all the coefficients into the state $\mathbf{x} = [a_{0}, a_{1}, ..., a_{M}, b_{1}, b_{2}, ...\\, b_{M}]^T$, $\mathbf{H}_k = [1, \sin(2\pi f_0 t_k), \ldots, \sin(2\pi M \, f_0 \, t_k), \cos(2\pi f_0 t_k), \\\ldots, \cos(2\pi f_M t_j)]$, which gives
 %
@@ -311,36 +329,11 @@ y_k &= \mathbf{H}_k \mathbf{x}_k + r_k.
 
 
 
-% The end of the first column and the start of the second
-\end{minipage} % no empty line before the next ``\begin''
-\hspace{0.03\linewidth} % Middle margin
-\begin{minipage}[t]{0.47\linewidth}
-\setlength{\parindent}{10mm} % Paragraph indent
-
-
-
-
-
-
-
-
-\section{Still one section}
-
-\lipsum[3-4]
-
-
-
-
 
 
 
 \vspace{\sectionspace}
 \section{Conclusion}
-
-\begin{itemize}
-	\item \lipsum[5]
-	\item \lipsum[6]
-\end{itemize}
 
 
 
