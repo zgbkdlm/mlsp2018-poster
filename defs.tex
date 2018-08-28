@@ -1,0 +1,182 @@
+% TIKZ
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{color}
+% and optionally (as of Pgfplots 1.3):
+\pgfplotsset{compat=newest}
+\pgfplotsset{plot coordinates/math parser=false}
+%% Uniform lengths to use in figures
+\newlength{\hfigwidth}
+\setlength{\hfigwidth}{0.6\linewidth}
+\newlength{\figwidth}
+\setlength{\figwidth}{\linewidth}
+
+\usetikzlibrary{decorations}
+\usetikzlibrary{decorations.markings}
+
+%% Some color definitions
+
+\definecolor{myred}{rgb}{0.82, 0.1, 0.26} % Red
+\definecolor{mygreen}{rgb}{0.0, 0.7, 0.0} % Green
+\definecolor{myblue}{rgb}{0,0.4,1} % Blue
+\definecolor{myyellow}{rgb}{1,0.8,0.4} % Yellowish
+\definecolor{mybrown}{RGB}{169,94,43} % Brown
+\definecolor{mycyan}{RGB}{29,202,190} % Cyan
+\definecolor{myviolet}{RGB}{223,133,223} % Violet
+\definecolor{mygreen2}{RGB}{153,230,93} % Second kind of green
+
+\definecolor{mypink}{RGB}{102,0,204} % Pink
+\definecolor{myyellow2}{RGB}{204,102,0} % Yellow
+
+%%%% Some commands for covariance, variance and expectation done in a convenient way
+
+%%%% MISC
+
+% Allow page breaks inside align environments
+\allowdisplaybreaks
+
+% to prevent \u8 errors
+\DeclareUnicodeCharacter{00A0}{ } 
+
+\renewcommand{\theenumi}{(\arabic{enumi})}
+% Redefine some numbering symbols
+\renewcommand{\labelenumi}{\theenumi}
+
+%%%% NEWCOMMANDS
+
+%%% Misc
+
+\newcommand{\bigO}{\mathcal{O}} % Asymptotic notation
+
+%%% Functions
+
+\DeclareMathOperator*{\argmin}{arg\,min}  % Argmin
+\DeclareMathOperator*{\argmax}{arg\,max}  % Argmax
+
+\DeclareMathOperator\erf{erf} % Standard error function
+
+%%% Probability
+
+\newcommand{\expec}{\mathbb{E}}           % Expectation
+\newcommand{\cov}{\operatorname{Cov}}     % Covariance
+\newcommand{\var}{\operatorname{Var}}     % Variance
+\newcommand{\gauss}{\mathcal{N}}          % Gaussian distribution
+
+%%% Redefine some Greeks
+
+\renewcommand{\epsilon}{\varepsilon}
+
+%%% Number sets
+
+\newcommand{\R}{\mathbb{R}} % Set of real numbers
+\newcommand{\Q}{\mathbb{Q}} % Set of rational numbers
+\newcommand{\N}{\mathbb{N}} % Set of natural numbers
+\newcommand{\Z}{\mathbb{Z}} % Set of integers
+
+%%% Standard constants and objects
+\DeclareMathOperator{\neper}{e} % Exponential constant
+
+%% Linear algebra operations
+\newcommand{\transpose}{\mathsf{T}}         % Transpose of a matrix
+\newcommand{\trace}{\operatorname{tr}}      % Matrix trace
+\newcommand{\adj}{\operatorname{adj}}       % Matrix adjugate
+\newcommand{\diag}{\operatorname{diag}}     % Diagonal matrix
+\newcommand{\rank}{\operatorname{rank}}     % rank of a matrix
+\newcommand{\Hess}{\operatorname{Hess}}     % Hessian matrix
+\newcommand{\lspan}{\operatorname{span}}    % linear span
+\newcommand{\mineig}{\lambda_{\text{min}}}  % Minimal eigenvalue
+\newcommand{\maxeig}{\lambda_{\text{max}}}  % Maximal eigenvalue
+
+%%% Matrices and vectors
+
+\newcommand{\vct}[1]{\mathbf{#1}} % Vector or matrix
+\newcommand{\vctg}{\pmb}          % Vector or matrix, for Greek letters and other weird symbols
+
+%% Matrices, Latin alphabet
+
+\newcommand{\mA}{\vct{A}}
+\newcommand{\mB}{\vct{B}}
+\newcommand{\mC}{\vct{C}}
+\newcommand{\mD}{\vct{D}}
+\newcommand{\mE}{\vct{E}}
+\newcommand{\mG}{\vct{G}}
+\newcommand{\mH}{\vct{H}}
+\newcommand{\mQ}{\vct{Q}}
+\newcommand{\mR}{\vct{R}}
+\newcommand{\mW}{\vct{W}}
+\newcommand{\mK}{\vct{K}}
+\newcommand{\mT}{\vct{T}}
+\newcommand{\mS}{\vct{S}}
+\newcommand{\mF}{\vct{F}}
+\newcommand{\mP}{\vct{P}}
+\newcommand{\mId}{\vct{I}}
+\newcommand{\mL}{\vct{L}}
+\newcommand{\mI}{\vct{I}}
+\newcommand{\mJ}{\vct{J}}
+\newcommand{\mV}{\vct{V}}
+\newcommand{\mX}{\vct{X}}
+\newcommand{\mY}{\vct{Y}}
+\newcommand{\mU}{\vct{U}}
+\newcommand{\mZ}{\vct{Z}}
+\newcommand{\mZero}{\vct{0}}
+\newcommand{\mOne}{\vct{1}}
+
+%% Vectors, Latin alphabet
+
+\newcommand{\ma}{\vct{a}}
+\newcommand{\mb}{\vct{b}}
+\newcommand{\mx}{\vct{x}}
+\newcommand{\my}{\vct{y}}
+\newcommand{\mv}{\vct{v}}
+\newcommand{\ml}{\vct{l}}
+\renewcommand{\md}{\vct{d}} % commath has a command with same name (multiple partial differential in fraction)
+\newcommand{\mm}{\vct{m}}
+\newcommand{\mq}{\vct{q}}
+\newcommand{\mr}{\vct{r}}
+\newcommand{\mz}{\vct{z}}
+\newcommand{\muu}{\vct{u}}
+\newcommand{\mo}{\vct{o}}
+\newcommand{\mf}{\vct{f}}
+\newcommand{\mg}{\vct{g}}
+\newcommand{\mi}{\vct{i}}
+\newcommand{\mc}{\vct{c}}
+\newcommand{\mk}{\vct{k}}
+\newcommand{\ms}{\vct{s}}
+\newcommand{\mw}{\vct{w}}
+\newcommand{\mh}{\vct{h}}
+\newcommand{\mn}{\vct{n}}
+\newcommand{\me}{\vct{e}}
+\newcommand{\mt}{\vct{t}}
+\newcommand{\mpp}{\vct{p}}
+\newcommand{\mell}{\boldsymbol\ell}
+
+%% Matrices and vectors, Greek alphabet
+
+\newcommand{\mPhi}{\vctg\Phi}
+\newcommand{\mPsi}{\vctg\Psi}
+\newcommand{\mGamma}{\vctg\Gamma}
+\newcommand{\mZeta}{\vct{Z}}
+\newcommand{\mzeta}{\vct{\zeta}}
+\newcommand{\mxi}{\vctg\xi}
+\newcommand{\mXi}{\vctg\Xi}
+\newcommand{\mphi}{\vctg\phi}
+\newcommand{\momega}{\vctg\omega}
+\newcommand{\mPi}{\vctg\Pi}
+\newcommand{\msigma}{\vctg\sigma}
+\newcommand{\mSigma}{\vctg\Sigma}
+\newcommand{\mlambda}{\vctg\lambda}
+\newcommand{\mLambda}{\vctg\Lambda}
+\newcommand{\mrho}{\vctg\rho}
+\newcommand{\mchi}{\vctg\chi}
+\newcommand{\mbeta}{\vctg\beta}
+\newcommand{\malpha}{\vctg\alpha}
+\newcommand{\muug}{\vctg\mu}
+\newcommand{\mepsilon}{\vctg\epsilon}
+\newcommand{\mgamma}{\vctg\gamma}
+\newcommand{\mOmega}{\vctg\Omega}
+\newcommand{\meta}{\vctg\eta}
+\newcommand{\mtau}{\vctg\tau}
+\newcommand{\mkappa}{\vctg\kappa}
+\newcommand{\mtheta}{\vctg\theta}
+\newcommand{\mpsi}{\vctg\psi}

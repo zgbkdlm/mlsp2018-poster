@@ -1,0 +1,372 @@
+\documentclass[portrait,a0,final]{a0poster} % a0poster class sets the paper size
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage[english]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage[ELEC,RGB]{aaltologo} % RGB, Coated, Uncoated
+\usepackage{lipsum} % Lorem ipsum generator
+\usepackage{verbatim} % For multiline comments
+
+\usepackage{titlesec} % For changing the font on chapters, sections, etc.
+
+% Math and so on
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{commath}
+\usepackage{enumitem}
+\input{defs.tex}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{labelformat=empty}
+
+%Marko omat lisät
+\usepackage{epstopdf}
+\usepackage{fouridx}
+\usepackage[many]{tcolorbox}
+\usepackage{adjustbox}
+\usepackage[absolute,overlay]{textpos} %,showboxes
+%\usepackage[colorgrid,texcoord]{eso-pic}
+\setlength{\TPHorizModule}{1cm}
+\setlength{\TPVertModule}{1cm}
+
+
+%% Section font size reduction for a1 posters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Also changes the format to sans serif bold, i.e. bold Helvetica via aaltologo package, can change the color of section text
+
+\titleformat{\section}{\large\bfseries\sffamily\color{aaltoPurple}}{\textcolor{aaltoPurple}{\thesection}}{1em}{} % Text size for a1 posters
+
+
+%\titleformat{\section}{\large\bfseries\sffamily\color{aaltoBlack}}{\textcolor{aaltoBlack}{\thesection}}{1em}{} % Text size for a1 posters
+
+%\titleformat{\section}{\large\bfseries\sffamily}{\thesection.}{1em}{} % Text size for a1 posters with a dot after the incremental number
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{epstopdf} % so that ``pdflatex'' accepts .eps files
+
+
+% Safe alternative math font for aaltoseries (optional)
+\usepackage{fouriernc}
+\DeclareMathAlphabet{\mathcal}{OMS}{zplm}{m}{n}
+
+% Teach hyphenation for alien words
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+%\begin{comment}
+\newcommand{\BC}{aaltoPurple}
+\newcommand{\BCb}{white}
+
+\newcommand{\Loota}{\begin{tcolorbox}[
+		frame hidden,
+		top=20pt,
+		rightrule=-1pt,
+		leftrule=-1pt,
+		bottomrule=-1mm,
+		toprule=10pt,
+		arc=0pt,outer arc=0pt,
+		colframe=\BC,
+		colback=\BCb
+		]}
+	%\end{comment}
+	
+	% Section rulers
+	\newcommand{\secrule}[1]{\noindent{\color{aaltoBlue}\rule{#1}{10pt}}\vspace{1cm}}
+	
+	% Custom title settings
+	\titleformat{\section}
+	{\fontsize{55}{15}\bfseries}{\thesection}{1em}{}
+	\titleformat{\subsection}
+	{\fontsize{35}{15}\bfseries}{\thesection}{1em}{}
+	
+	\newcommand{\ownsec}[1]{{\fontsize{55}{15}{\bfseries #1}}\vspace{0.8cm}\newline}
+	\newcommand{\ownsubsec}[1]{{\fontsize{35}{15}{\bfseries #1}}\vspace{0.8cm}\newline}
+
+	
+	% Own emph
+	\usepackage{soul}
+	\newcommand{\memph}[1]{{\color{aaltoGreen} #1}}
+	\newcommand{\bemph}[1]{{\color{aaltoRed} #1}}
+	\newcommand{\uemph}[1]{\emph{#1}}
+
+
+
+%\newcommand{\vt}[1]{\ensuremath{\boldsymbol{#1}}} % vector, i.e. math bold face, cursive
+\newcommand{\vt}[1]{\ensuremath{\mathbf{#1}}} % vector, i.e. math bold face, not-cursive
+\newcommand{\lt}[1]{\ensuremath{\mathrm{#1}}} % sub or sup text, i.e. not cursive
+\newcommand{\ec}{\ensuremath{\vt{J}}} % electric surface current
+
+%
+\newcommand{\aee}{\ensuremath{\overline{\overline{a}}_\lt{ee}}}
+\newcommand{\aem}{\ensuremath{\overline{\overline{a}}_\lt{em}}}
+\newcommand{\ame}{\ensuremath{\overline{\overline{a}}_\lt{me}}}
+\newcommand{\amm}{\ensuremath{\overline{\overline{a}}_\lt{mm}}}
+\newcommand{\bee}{\ensuremath{\overline{\overline{b}}_\lt{ee}}}
+\newcommand{\bem}{\ensuremath{\overline{\overline{b}}_\lt{em}}}
+\newcommand{\bme}{\ensuremath{\overline{\overline{b}}_\lt{me}}}
+\newcommand{\bmm}{\ensuremath{\overline{\overline{b}}_\lt{mm}}}
+%
+\newcommand{\adyad}{\ensuremath{\overline{\overline{a}}}}
+\newcommand{\bdyad}{\ensuremath{\overline{\overline{b}}}}
+%
+\newcommand{\unitx}{\ensuremath{\vt{x}_0}}
+\newcommand{\unity}{\ensuremath{\vt{y}_0}}
+
+
+
+
+
+
+\newcommand{\sectionspace}{10mm} % Free space before each section inside a minipage
+\newcommand{\figurespace}{10mm} % Free space around figures inside a minipage (where floats are not allowed)
+
+
+\begin{document}
+
+
+
+
+
+
+\thispagestyle{empty} % Removes the page number
+
+
+
+
+\begin{minipage}[t]{0.98\linewidth} % The first minipage for the logo & title
+\vspace{0pt} % A trick to align the parallel minipages on top
+
+\vspace{0.008\linewidth} % Increase the top margin
+
+\begin{minipage}[t]{0.28\linewidth} % logo
+\vspace{0pt} % Alingns the parallel minipages on top
+
+%% Choose the logo or use random generator
+\AaltoLogoLarge{1.55}{''}{aaltoYellow} % Chosen logo, scaled for A1 size
+%\AaltoLogoRandomLarge{1.55} % Random logo, scaled for A1 size
+
+\end{minipage} % no empty line before the next begin
+\begin{minipage}[t]{0.7\linewidth} % title
+\vspace{0pt} % Alingns the parallel minipages on top
+
+
+%% Font sizes for a0poster are
+%\tiny
+%\scriptsize
+%\footnotesize
+%\small
+%\normalsize
+%\large
+%\Large
+%\LARGE
+%\huge
+%\Huge
+%\veryHuge
+%\VeryHuge
+%\VERYHuge
+
+%% Official colors from aaltologo-package (visual-identity guideline)
+% aaltoBlack
+% aaltoGray
+% aaltoGrayScale (for b&w prints)
+% aaltoYellow
+% aaltoOrange
+% aaltoRed
+% aaltoFuchsia
+% aaltoPurple
+% aaltoBlue
+% aaltoTurquoise
+% aaltoGreen
+% aaltoLightGreen
+% You can use \textcolor{<aaltocolor>}{<your text>) to change the colors of text, or
+
+% Aalto-fancy title, use \baselinestretch to change linespacing, \textit{} for italic text, \textcolor for colored text
+{\renewcommand{\baselinestretch}{0.5} % Changes the baseline skip smaller for the title
+\begin{flushleft}
+	\textcolor{aaltoBlue}{\veryHuge{\bfseries{\textsf{Spectro-Temporal ECG Analysis For Atrial Fibrillation Detection}}}}	
+\end{flushleft}
+ % Text size for a1 posters
+\par} % <- for \baselinestretch
+
+%% More conservative title, upright and black
+%{\renewcommand{\baselinestretch}{0.85} % Changes the baseline skip smaller for the title
+%\Huge{\bfseries{\textsf{The title of the poster\\ that can span\\ to multiple rows}}} % Text size for a1 posters
+%\par} % <- for \baselinestretch
+
+
+\vspace{0.01\linewidth} % Empty space after the title
+
+\normalsize{\textsf{\bfseries{Zheng Zhao, Simo Särkkä, and Ali Bahrami Rad}}} % Text size for a1 posters
+
+\textcolor{aaltoGray}{\textsf{\bfseries{Department of Electrical Engineering and Automation, Aalto University}}}
+%
+\end{minipage}
+\end{minipage}
+
+%% Two columns
+
+% Space according to the visual identity guidelines...
+\vspace{0.04\linewidth}
+
+% Centering helps in placement
+\centering
+
+
+
+\small % Text size for a1 posters
+
+
+\begin{minipage}{0.98\linewidth}
+
+
+
+
+\begin{minipage}[t]{0.47\linewidth}
+\setlength{\parindent}{10mm} % Paragraph indent
+
+
+\section{Introduction}
+\Large
+Atrial Fibrillation (AF) is a type of cardiac rhythm disturbance (arrhythmia) which can lead to blood clots, stroke, heart failure, or death. The aim is to automatically detect AF leveraging the recent Deep Learning (DL) techniques:
+\vspace{10mm}
+\begin{itemize}
+	\item We propose an extended spectrogram estimation method by modeling signal in state-space and use a Kalman filter and smoother for Bayesian spectral estimation
+	\item We leverage state-of-the-art densely connected convolutional networks \cite{huang2017densely} for AF detection using the proposed presentation
+	\item We evaluate the method using PhysioNet/CinC 2017 dataset~\cite{clifford2017af}, which is considered to be a challenging dataset which resembles practical applications.
+\end{itemize}
+
+\vspace{\sectionspace}
+\section{Spectro-Temporal ECG Analysis}
+
+Different from classical transformation methods, we model the time varying spectrum with a state-space model and use Bayesian procedure (i.e., Kalman filter and smoother) for its estimation \cite{qi2002bayesian}, which does not need stationarity guarantee nor windowing. 
+
+Recall that any periodic signal with fundamental frequency $f_0$ can be expanded into a Fourier series
+
+\begin{equation}
+z(t) = a_0 + \sum_{j=1}^{M} \left[ a_{j} \cos(2\pi \, j \, f_0 t) + b_{j} \sin(2\pi  \, j \, f_0 \, t) \right],
+\label{equ:fourier_series}
+\end{equation}
+
+We now assume that the coefficients depend on time, and we put a Gaussian process priors on them:
+%
+\begin{equation}
+\begin{split}
+a_j(t) &\sim \mathcal{GP}(0,k^a_j(t,t')), \\
+b_j(t) &\sim \mathcal{GP}(0,k^b_j(t,t')).
+\end{split}
+\end{equation}
+
+\vspace{\sectionspace}
+\section{Another section}
+
+
+\begin{itemize}
+		
+	\item Figures below
+	
+\end{itemize}
+
+
+\vspace{\figurespace}
+\begin{center}
+  	\includegraphics[width=0.4\linewidth,trim=20mm 10mm 10mm 10mm, clip]{./figs/dir_sca_db_phi00.eps}
+  	\includegraphics[width=0.4\linewidth,trim=20mm 10mm 10mm 10mm, clip]{./figs/dir_sca_db_phi90.eps}
+\end{center}
+\vspace{\figurespace}
+
+
+
+
+
+
+% The end of the first column and the start of the second
+\end{minipage} % no empty line before the next ``\begin''
+\hspace{0.03\linewidth} % Middle margin
+\begin{minipage}[t]{0.47\linewidth}
+\setlength{\parindent}{10mm} % Paragraph indent
+
+
+
+
+
+
+
+
+\section{Still one section}
+
+\lipsum[3-4]
+
+
+
+
+
+
+
+\vspace{\sectionspace}
+\section{Conclusion}
+
+\begin{itemize}
+	\item \lipsum[5]
+	\item \lipsum[6]
+\end{itemize}
+
+
+
+%{\tiny % % Bibliography text size begins...
+{\footnotesize % % Bibliography text size begins...
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+
+} % <- bibliography text size ends
+
+
+
+\end{minipage}
+\end{minipage} % minipage for the two columns (minipages)
+
+
+
+
+
+\vfill % Fill the free space until the footer minipages
+
+
+\begin{minipage}{0.95\linewidth} % Minipages for the footers
+
+
+\footnotesize % Text size for footers
+
+
+\begin{minipage}[t]{0.47\linewidth}% Footer #1
+\vspace{0pt}
+
+\textsf{\textbf{Department of Radio Science and Engineering / SMARAD Centre of Excellence\\
+School of Electrical Engineering\\
+Aalto University, Finland}}
+
+\end{minipage} % No empty line before the second begin!
+\hspace{0.03\linewidth}
+\begin{minipage}[t]{0.47\linewidth} % Footer #2
+\vspace{0pt}
+
+\textsf{\textbf{Contact information for comments \& improvement ideas: Antti Karilainen\\
+Email: antti.karilainen@aalto.fi\\
+Version 0.1g}}
+\end{minipage}
+
+
+
+\end{minipage}
+
+
+
+
+\vspace*{0.03\linewidth} % Increase the bottom margins
+
+
+
+\end{document}
