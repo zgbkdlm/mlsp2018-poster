@@ -232,7 +232,7 @@ Atrial Fibrillation (AF) is a type of cardiac rhythm disturbance (arrhythmia) wh
 \vspace{10mm}
 \begin{itemize}
 	\item We propose an extended spectrogram estimation method by modeling signal in state-space and use a Kalman filter and smoother for Bayesian spectral estimation
-	\item We leverage state-of-the-art densely connected convolutional networks \cite{huang2017densely} for AF detection using the proposed presentation
+	\item We leverage state-of-the-art Densely connected convolutional networks (DenseNet) \cite{huang2017densely} for AF detection using the proposed presentation
 	\item We evaluate the method using PhysioNet/CinC 2017 dataset~\cite{clifford2017af}, which is considered to be a challenging dataset which resembles practical applications.
 \end{itemize}
 \begin{minipage}[c]{\linewidth}
@@ -295,42 +295,66 @@ where $\mathbf{A}_k$ contains the terms $\psi^a_{jk}$ and $\phi^b_{jk}$ on the d
 \end{minipage} % no empty line before the next ``\begin''
 \hspace{0.03\linewidth} % Middle margin
 \begin{minipage}[t]{0.47\linewidth}
-\setlength{\parindent}{10mm} % Paragraph indent
+ % Paragraph indent
 \Large
 
-\section{Still one section}
-
-Let us now assume that we obtain noisy measurements of the Fourier series \eqref{equ:fourier_series} and times $t_1,t_2,\ldots$. What we can now do is to stack all the coefficients into the state $\mathbf{x} = [a_{0}, a_{1}, ..., a_{M}, b_{1}, b_{2}, ...\\, b_{M}]^T$, $\mathbf{H}_k = [1, \sin(2\pi f_0 t_k), \ldots, \sin(2\pi M \, f_0 \, t_k), \cos(2\pi f_0 t_k), \\\ldots, \cos(2\pi f_M t_j)]$, which gives
-%
+We could then perform exact Bayesian state estimation using Kalman filter and Rauch–Tung–Striebel (RTS) smoother, and define the spectro-temporal data matrix as:
 \begin{equation}
-\mathbf{H}_k \mathbf{x}
-= a_0 + \sum_{j=1}^{M} \left[ a_{j} \cos(2\pi \, j \, f_0 t) + b_{j} \sin(2\pi  \, j \, f_0 \, t) \right]
-= z(t_k).
-\label{eq:Hx}
-\end{equation}
-%
-The discrete-time dynamic model \eqref{eq:discdyn} can be written as
-%
-\begin{equation}
-\mathbf{x}_k = \mathbf{A}_{k} \mathbf{x}_{k-1} + \mathbf{q}_{k} 
-\label{eq:dynmodel}
-\end{equation}
-%
-where $\mathbf{A}_k$ contains the terms $\psi^a_{jk}$ and $\phi^b_{jk}$ on the diagonal and $ \mathbf{q}_{k} \sim \mathcal{N}(\mathbf{0},\mathbf{Q}_k)$ where $\mathbf{Q}_k$ contains the terms $\Sigma^a_{jk}$ and $\Sigma^b_{jk}$ on the diagonal.
-
-If we assume that we actually measure \eqref{eq:Hx} with additive Gaussian measurement noise $r_k \sim \mathcal{N}(0,R)$, then we can express the measurement model as
-%
-\begin{equation}
-\begin{split}
-y_k &= \mathbf{H}_k \mathbf{x}_k + r_k.
-\end{split}
-\label{eq:measmodel}
+[\mathbf{S}]_{j,k} = \sqrt{\hat{a}_{j}^2(t_k) + \hat{b}_{j}^2(t_k)}.
+\label{eq:power_density}
 \end{equation}
 
+\begin{minipage}[c]{\linewidth}
+	\centering
+	\includegraphics[width=0.22\linewidth]{figures/1012}
+	\includegraphics[width=0.22\linewidth]{figures/kalman-1012-smooth-large}
+	\includegraphics[width=0.22\linewidth]{figures/3246}
+	\includegraphics[width=0.22\linewidth]{figures/ave-af-3246}
+	\\\small Normal (Rec.1012) \hspace{10cm} Atrial Fibrillation (Rec.3246)\\
+	\includegraphics[width=0.22\linewidth]{figures/1037}
+	\includegraphics[width=0.22\linewidth]{figures/ave-other-1037}
+	\includegraphics[width=0.22\linewidth]{figures/1006}
+	\includegraphics[width=0.22\linewidth]{figures/ave-noise-1006}
+	\\Others (Rec.1037) \hspace{11cm} Noisy (Rec.1006)
+\end{minipage}
+\setlength{\parindent}{10mm}
+
+In order to perform AF detection, we treat (\ref{eq:power_density}) as image data and train a DenseNet for ECG classification, where the structure is shown below:
+
+\vspace{\figurespace}
+\includegraphics[scale=1.8]{figures/densely_banner}
 
 
+\section{Results}
+The algorithm is performed on the PhysioNet/CinC 2017 dataset~\cite{clifford2017af} which contains 8528 short ECG recordings (9s to 60s) at 300Hz sampling rate. For model assessment, stratified 10-fold cross-validation and F1 metrics are adopted for evaluation. Below shows the confusion matrix and score:
 
+\begin{minipage}[c]{\linewidth}
+\vspace{\figurespace}
+\centering
+\includegraphics[width=0.22\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_kalman}
+\includegraphics[width=0.22\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_cwt}
+\includegraphics[width=0.22\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_stft}
+\includegraphics[width=0.22\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_pburg}
+Normalized confusion matrix on different methods.
 
+\large
+\vspace{\figurespace}
+\begin{tabular}{|l|l|c|c|c|c|c|c|c|}
+	\hline
+	& \multicolumn{1}{c|}{Methods}           & $F1_N$        & $F1_A$        & $F1_O$      & $F1_\sim$     & $F1_{overall}$  & $Std_{F1}$ & Precision \\ \hline
+	(1) & STFT + Dense18$^+$                          & 88.06          & 75.23          & 70.03        & 52.67          & 77.79          & 1.41      & 79.38          \\ \hline
+	(2) & CWT + Dense18$^+$                           & 88.77          & 78.08          & 71.79        & 53.25          & 79.55          & 1.39      & 80.73          \\ \hline
+	(3) & BurgAR + Dense18$^+$                         & 88.11          & 76.24          & 69.49        & \textbf{55.91} & 77.95          & 1.51      & 79.23          \\ \hline
+	(4) & Kalman + Dense18$^+$                        & \textbf{88.80} & \textbf{79.64} & \textbf{72.08}        & 51.78          & \textbf{80.17} & \textbf{1.06}      & \textbf{81.33} \\ \hline
+	(5) & Kalman + Dense18                       & 88.16          & 76.61          & 70.81        & 49.21          & 78.53          & 1.14      & 80.02          \\ \hline
+	(6) & Kalman + Res18\cite{he2016deep}                         & 87.19          & 74.98          & 68.31        & 47.01          & 76.83          & 1.08      & 78.04          \\ \hline
+	(7) & Martin\cite{zihlmann2017convolutional} & 87.8            & 79.0            & 70.1 & 65.3   & 79.0            & N/A        & 81.2           \\ \hline
+	(8) & Zhaohan\cite{xiong2017robust}                                & 87              & 80              & 68            & N/A             & 78              & N/A        & N/A             \\ \hline
+\end{tabular}
+
+\vspace{5mm}
+10-fold cross-validation results using different spectrogram estimation methods and deep CNNs architectures.
+\end{minipage}
 
 \vspace{\sectionspace}
 \section{Conclusion}
