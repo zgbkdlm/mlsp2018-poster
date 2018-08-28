@@ -233,7 +233,7 @@ Atrial Fibrillation (AF) is a type of cardiac rhythm disturbance (arrhythmia) wh
 \begin{itemize}
 	\item We propose an extended spectrogram estimation method by modeling signal in state-space and use a Kalman filter and smoother for Bayesian spectral estimation
 	\item We leverage state-of-the-art Densely connected convolutional networks (DenseNet) \cite{huang2017densely} for AF detection using the proposed presentation
-	\item We evaluate the method using PhysioNet/CinC 2017 dataset~\cite{clifford2017af}, which is considered to be a challenging dataset which resembles practical applications.
+	\item We evaluate the method using PhysioNet/CinC 2017 dataset, which is considered to be a challenging dataset which resembles practical applications.
 \end{itemize}
 \begin{minipage}[c]{\linewidth}
 	\centering
@@ -326,15 +326,16 @@ In order to perform AF detection, we treat (\ref{eq:power_density}) as image dat
 
 
 \section{Results}
-The algorithm is performed on the PhysioNet/CinC 2017 dataset~\cite{clifford2017af} which contains 8528 short ECG recordings (9s to 60s) at 300Hz sampling rate. For model assessment, stratified 10-fold cross-validation and F1 metrics are adopted for evaluation. Below shows the confusion matrix and score:
+The algorithm is performed on the PhysioNet/CinC 2017 dataset which contains 8528 short ECG recordings (9s to 60s) at 300Hz sampling rate. For model assessment, stratified 10-fold cross-validation and F1 metrics are adopted for evaluation. Below shows the confusion matrix and score:
 
 \begin{minipage}[c]{\linewidth}
+\setlength{\parindent}{0mm}
 \vspace{\figurespace}
 \centering
-\includegraphics[width=0.22\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_kalman}
-\includegraphics[width=0.22\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_cwt}
-\includegraphics[width=0.22\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_stft}
-\includegraphics[width=0.22\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_pburg}
+\includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_kalman}
+\includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_cwt}
+\includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_stft}
+\includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_pburg}
 Normalized confusion matrix on different methods.
 
 \large
@@ -347,17 +348,20 @@ Normalized confusion matrix on different methods.
 	(3) & BurgAR + Dense18$^+$                         & 88.11          & 76.24          & 69.49        & \textbf{55.91} & 77.95          & 1.51      & 79.23          \\ \hline
 	(4) & Kalman + Dense18$^+$                        & \textbf{88.80} & \textbf{79.64} & \textbf{72.08}        & 51.78          & \textbf{80.17} & \textbf{1.06}      & \textbf{81.33} \\ \hline
 	(5) & Kalman + Dense18                       & 88.16          & 76.61          & 70.81        & 49.21          & 78.53          & 1.14      & 80.02          \\ \hline
-	(6) & Kalman + Res18\cite{he2016deep}                         & 87.19          & 74.98          & 68.31        & 47.01          & 76.83          & 1.08      & 78.04          \\ \hline
-	(7) & Martin\cite{zihlmann2017convolutional} & 87.8            & 79.0            & 70.1 & 65.3   & 79.0            & N/A        & 81.2           \\ \hline
-	(8) & Zhaohan\cite{xiong2017robust}                                & 87              & 80              & 68            & N/A             & 78              & N/A        & N/A             \\ \hline
+	(6) & Kalman + Res18                         & 87.19          & 74.98          & 68.31        & 47.01          & 76.83          & 1.08      & 78.04          \\ \hline
+	(7) & Martin & 87.8            & 79.0            & 70.1 & 65.3   & 79.0            & N/A        & 81.2           \\ \hline
+	(8) & Zhaohan                                & 87              & 80              & 68            & N/A             & 78              & N/A        & N/A             \\ \hline
 \end{tabular}
 
 \vspace{5mm}
-10-fold cross-validation results using different spectrogram estimation methods and deep CNNs architectures.
+Results from different spectrogram estimation methods and deep CNNs.
 \end{minipage}
+\setlength{\parindent}{10mm}
 
 \vspace{\sectionspace}
 \section{Conclusion}
+\setlength{\parindent}{10mm}
+we present a new spectro-temporal analysis method by assuming the time-varying Fourier coefficients of signal have Gaussian process priors. We express the solution in linear state-space and use a Bayesian Kalman filter/smoother for parameter estimation. Combining the aforementioned spectro-temporal representation with CNNs for ECG classification outperforms other time-frequency analysis methods (i.e., STFT, CWT, and BurgAR) with the same classifier for AF detection. The proposed method provides the classification performance of 80.2\% for overall F1 score. 
 
 
 
@@ -382,32 +386,32 @@ Normalized confusion matrix on different methods.
 \vfill % Fill the free space until the footer minipages
 
 
-\begin{minipage}{0.95\linewidth} % Minipages for the footers
-
-
-\footnotesize % Text size for footers
-
-
-\begin{minipage}[t]{0.47\linewidth}% Footer #1
-\vspace{0pt}
-
-\textsf{\textbf{Department of Radio Science and Engineering / SMARAD Centre of Excellence\\
-School of Electrical Engineering\\
-Aalto University, Finland}}
-
-\end{minipage} % No empty line before the second begin!
-\hspace{0.03\linewidth}
-\begin{minipage}[t]{0.47\linewidth} % Footer #2
-\vspace{0pt}
-
-\textsf{\textbf{Contact information for comments \& improvement ideas: Antti Karilainen\\
-Email: antti.karilainen@aalto.fi\\
-Version 0.1g}}
-\end{minipage}
-
-
-
-\end{minipage}
+%\begin{minipage}{0.95\linewidth} % Minipages for the footers
+%
+%
+%\footnotesize % Text size for footers
+%
+%
+%\begin{minipage}[t]{0.47\linewidth}% Footer #1
+%\vspace{0pt}
+%
+%\textsf{\textbf{Department of Radio Science and Engineering / SMARAD Centre of Excellence\\
+%School of Electrical Engineering\\
+%Aalto University, Finland}}
+%
+%\end{minipage} % No empty line before the second begin!
+%\hspace{0.03\linewidth}
+%\begin{minipage}[t]{0.47\linewidth} % Footer #2
+%\vspace{0pt}
+%
+%\textsf{\textbf{Contact information for comments \& improvement ideas: Antti Karilainen\\
+%Email: antti.karilainen@aalto.fi\\
+%Version 0.1g}}
+%\end{minipage}
+%
+%
+%
+%\end{minipage}
 
 
 
