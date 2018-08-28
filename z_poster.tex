@@ -236,13 +236,11 @@ Atrial Fibrillation (AF) is a type of cardiac rhythm disturbance (arrhythmia) wh
 	\item We leverage state-of-the-art densely connected convolutional networks \cite{huang2017densely} for AF detection using the proposed presentation
 	\item We evaluate the method using PhysioNet/CinC 2017 dataset~\cite{clifford2017af}, which is considered to be a challenging dataset which resembles practical applications.
 \end{itemize}
-
-\begin{figure}[h]
+\begin{minipage}[c]{\linewidth}
 	\centering
-	\includegraphics[scale=0.55]{figures/pre-processing}
-	\caption{Processing chain of ECG classification}
-	\label{overall_flowchart}
-\end{figure}
+	\includegraphics[scale=2]{figures/pre-processing}
+\end{minipage}
+
 
 \vspace{\sectionspace}
 \section{Spectro-Temporal ECG Analysis}
@@ -256,7 +254,7 @@ z(t) = a_0 + \sum_{j=1}^{M} \left[ a_{j} \cos(2\pi \, j \, f_0 t) + b_{j} \sin(2
 \label{equ:fourier_series}
 \end{equation}
 
-We now assume that the coefficients depend on time, and we put a Gaussian process priors on them:
+We assume that the coefficients depend on time, and we put a Gaussian process priors on them:
 %
 \begin{equation}
 \begin{split}
@@ -265,26 +263,51 @@ b_j(t) &\sim \mathcal{GP}(0,k^b_j(t,t')).
 \end{split}
 \end{equation}
 
-\vspace{\sectionspace}
-\section{Another section}
+where the covariance functions are defined as: $k^a_j(t,t') = (s^a_j)^2 \, \exp( -\lambda^a_j \, | t - t' | )$ and $k^a_j(t,t') = (s^b_j)^2 \, \exp( -\lambda^b_j \, | t - t' | )$. The coefficients can be further represented in state-space, and discretized as \cite{Sarkka:2006}: 
+%
+%\begin{alignat*}{2}
+%da_j &= -\lambda^a_j \, a_j \, dt + dW^a_j, \quad db_j &&= -\lambda^b_j \, b_j \, dt + dW^b_j \\
+%a_j(t_k) &= \psi^a_{jk} \, a_j(t_{k-1}) + w^a_{jk}, \quad b_j(t_k) &&= \psi^b_{jk} \, b_j(t_{k-1}) + w^b_{jk},
+%\end{alignat*}
+%%
+%where $W^a_j,W^b_j$ are Brownian motions with suitable diffusion coefficients $q^a_j,q^b_j$. We can also solve the equations at discrete time steps (see, e.g., \cite{Sarkka:2006}) as
+%
+\begin{equation}
+\begin{split}
+a_j(t_k) &= \psi^a_{jk} \, a_j(t_{k-1}) + w^a_{jk}, \\
+b_j(t_k) &= \psi^b_{jk} \, b_j(t_{k-1}) + w^b_{jk}, \\
+\end{split}
+\label{eq:discdyn}
+\end{equation}
+%
+where $\psi^a_{jk} = \exp(-\lambda^a_j \, (t_k - t_{k-1})), \psi^b_{jk} = \exp(-\lambda^b_j \, (t_k - t_{k-1}))$, $w^a_{jk} \sim \mathcal{N}(0,\Sigma^a_{jk}), w^b_{jk} \sim \mathcal{N}(0,\Sigma^b_{jk})$, $\Sigma^a_{jk} = q^a_j \, (1 - \exp(-2 \lambda^a_j \, (t_k - t_{k-1})))$, and $\Sigma^b_{jk} = q^b_j \, (1 - \exp(-2 \lambda^b_j \, (t_k - t_{k-1})))$.
 
+Let us now assume that we obtain noisy measurements of the Fourier series \eqref{equ:fourier_series} and times $t_1,t_2,\ldots$. What we can now do is to stack all the coefficients into the state $\mathbf{x} = [a_{0}, a_{1}, ..., a_{M}, b_{1}, b_{2}, ...\\, b_{M}]^T$, $\mathbf{H}_k = [1, \sin(2\pi f_0 t_k), \ldots, \sin(2\pi M \, f_0 \, t_k), \cos(2\pi f_0 t_k), \\\ldots, \cos(2\pi f_M t_j)]$, which gives
+%
+\begin{equation}
+\mathbf{H}_k \mathbf{x}
+= a_0 + \sum_{j=1}^{M} \left[ a_{j} \cos(2\pi \, j \, f_0 t) + b_{j} \sin(2\pi  \, j \, f_0 \, t) \right]
+= z(t_k).
+\label{eq:Hx}
+\end{equation}
+%
+The discrete-time dynamic model \eqref{eq:discdyn} can be written as
+%
+\begin{equation}
+\mathbf{x}_k = \mathbf{A}_{k} \mathbf{x}_{k-1} + \mathbf{q}_{k} 
+\label{eq:dynmodel}
+\end{equation}
+%
+where $\mathbf{A}_k$ contains the terms $\psi^a_{jk}$ and $\phi^b_{jk}$ on the diagonal and $ \mathbf{q}_{k} \sim \mathcal{N}(\mathbf{0},\mathbf{Q}_k)$ where $\mathbf{Q}_k$ contains the terms $\Sigma^a_{jk}$ and $\Sigma^b_{jk}$ on the diagonal.
 
-\begin{itemize}
-		
-	\item Figures below
-	
-\end{itemize}
-
-
-\vspace{\figurespace}
-\begin{center}
-  	\includegraphics[width=0.4\linewidth,trim=20mm 10mm 10mm 10mm, clip]{./figs/dir_sca_db_phi00.eps}
-  	\includegraphics[width=0.4\linewidth,trim=20mm 10mm 10mm 10mm, clip]{./figs/dir_sca_db_phi90.eps}
-\end{center}
-\vspace{\figurespace}
-
-
-
+If we assume that we actually measure \eqref{eq:Hx} with additive Gaussian measurement noise $r_k \sim \mathcal{N}(0,R)$, then we can express the measurement model as
+%
+\begin{equation}
+\begin{split}
+y_k &= \mathbf{H}_k \mathbf{x}_k + r_k.
+\end{split}
+\label{eq:measmodel}
+\end{equation}
 
 
 
