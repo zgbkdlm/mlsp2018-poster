@@ -3,7 +3,7 @@
 \usepackage{microtype}
 \usepackage[english]{babel}
 \usepackage[pdftex]{graphicx}
-\usepackage[ELEC,RGB]{aaltologo} % RGB, Coated, Uncoated
+\usepackage[ELEC,RGB,Uncoated]{aaltologo} % RGB, Coated, Uncoated
 \usepackage{lipsum} % Lorem ipsum generator
 \usepackage{verbatim} % For multiline comments
 
@@ -29,6 +29,7 @@
 \setlength{\TPHorizModule}{1cm}
 \setlength{\TPVertModule}{1cm}
 
+%\usepackage[Library,RGB,Arabia]{aaltologo}
 
 %% Section font size reduction for a1 posters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -92,7 +93,6 @@
 	\newcommand{\uemph}[1]{\emph{#1}}
 
 
-
 %\newcommand{\vt}[1]{\ensuremath{\boldsymbol{#1}}} % vector, i.e. math bold face, cursive
 \newcommand{\vt}[1]{\ensuremath{\mathbf{#1}}} % vector, i.e. math bold face, not-cursive
 \newcommand{\lt}[1]{\ensuremath{\mathrm{#1}}} % sub or sup text, i.e. not cursive
@@ -114,25 +114,13 @@
 \newcommand{\unitx}{\ensuremath{\vt{x}_0}}
 \newcommand{\unity}{\ensuremath{\vt{y}_0}}
 
-
-
-
-
-
 \newcommand{\sectionspace}{10mm} % Free space before each section inside a minipage
 \newcommand{\figurespace}{10mm} % Free space around figures inside a minipage (where floats are not allowed)
 
 
 \begin{document}
 
-
-
-
-
-
 \thispagestyle{empty} % Removes the page number
-
-
 
 
 \begin{minipage}[t]{0.98\linewidth} % The first minipage for the logo & title
@@ -142,10 +130,10 @@
 
 \begin{minipage}[t]{0.2\linewidth} % logo
 \vspace{0pt} % Alingns the parallel minipages on top
-\hspace{0.1\linewidth}
+\hspace{0.2\linewidth}
 
 %% Choose the logo or use random generator
-\AaltoLogoLarge{2}{?}{aaltoYellow} % Chosen logo, scaled for A1 size
+\AaltoLogoLarge{2}{!}{aaltoYellow} % Chosen logo, scaled for A1 size
 %\AaltoLogoRandomLarge{1.55} % Random logo, scaled for A1 size
 
 \end{minipage} % no empty line before the next begin
@@ -365,8 +353,8 @@ Results from different spectrogram estimation methods and deep CNNs.
 	\item We combine this spectro-temporal method with deep CNNs for ECG classification. The proposed method outperforms other time-frequency analysis methods (i.e., STFT, CWT, and BurgAR) and provides the classification performance of 80.2\% for overall F1 score. 
 \end{itemize}
 
-\begin{textblock}{21}(60,115)
-	\large Contact: Zheng Zhao (zheng.zhao@aalto.fi)
+\begin{textblock}{24}(57,115)
+	\large \textbf{Contact: Zheng Zhao (zheng.zhao@aalto.fi)}
 \end{textblock}
 
 %{\tiny % % Bibliography text size begins...
