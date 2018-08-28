@@ -226,7 +226,7 @@
 \setlength{\parindent}{10mm} % Paragraph indent
 
 
-\section{Introduction}
+\section*{Introduction}
 \Large
 Atrial Fibrillation (AF) is a type of cardiac rhythm disturbance (arrhythmia) which can lead to blood clots, stroke, heart failure, or death. The aim is to automatically detect AF leveraging the recent Deep Learning (DL) techniques:
 \vspace{10mm}
@@ -242,7 +242,7 @@ Atrial Fibrillation (AF) is a type of cardiac rhythm disturbance (arrhythmia) wh
 
 
 \vspace{\sectionspace}
-\section{Spectro-Temporal ECG Analysis}
+\section*{Spectro-Temporal ECG Analysis}
 
 Different from classical transformation methods, we model the time varying spectrum with a state-space model and use Bayesian procedure (i.e., Kalman filter and smoother) for its estimation \cite{qi2002bayesian}, which does not need stationarity guarantee nor windowing. 
 
@@ -325,7 +325,7 @@ In order to perform AF detection, we treat (\ref{eq:power_density}) as image dat
 \includegraphics[scale=1.8]{figures/densely_banner}
 
 
-\section{Results}
+\section*{Results}
 The algorithm is performed on the PhysioNet/CinC 2017 dataset which contains 8528 short ECG recordings (9s to 60s) at 300Hz sampling rate. For model assessment, stratified 10-fold cross-validation and F1 metrics are adopted for evaluation. Below shows the confusion matrix and score:
 
 \begin{minipage}[c]{\linewidth}
@@ -336,9 +336,9 @@ The algorithm is performed on the PhysioNet/CinC 2017 dataset which contains 852
 \includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_cwt}
 \includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_stft}
 \includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_pburg}
+\large
 Normalized confusion matrix on different methods.
 
-\large
 \vspace{\figurespace}
 \begin{tabular}{|l|l|c|c|c|c|c|c|c|}
 	\hline
@@ -356,14 +356,18 @@ Normalized confusion matrix on different methods.
 \vspace{5mm}
 Results from different spectrogram estimation methods and deep CNNs.
 \end{minipage}
-\setlength{\parindent}{10mm}
 
 \vspace{\sectionspace}
-\section{Conclusion}
+\section*{Conclusion}
 \setlength{\parindent}{10mm}
-we present a new spectro-temporal analysis method by assuming the time-varying Fourier coefficients of signal have Gaussian process priors. We express the solution in linear state-space and use a Bayesian Kalman filter/smoother for parameter estimation. Combining the aforementioned spectro-temporal representation with CNNs for ECG classification outperforms other time-frequency analysis methods (i.e., STFT, CWT, and BurgAR) with the same classifier for AF detection. The proposed method provides the classification performance of 80.2\% for overall F1 score. 
+\begin{itemize}
+	\item A new spectro-temporal analysis method is presented by assuming the time-varying Fourier coefficients of signal have Gaussian process priors. The solution is in linear state-space and state estimation is performed by Bayesian Kalman filter/smoother. 
+	\item We combine this spectro-temporal method with deep CNNs for ECG classification. The proposed method outperforms other time-frequency analysis methods (i.e., STFT, CWT, and BurgAR) and provides the classification performance of 80.2\% for overall F1 score. 
+\end{itemize}
 
-
+\begin{textblock}{21}(60,115)
+	\large Contact: Zheng Zhao (zheng.zhao@aalto.fi)
+\end{textblock}
 
 %{\tiny % % Bibliography text size begins...
 {\footnotesize % % Bibliography text size begins...
@@ -371,10 +375,7 @@ we present a new spectro-temporal analysis method by assuming the time-varying F
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
-
 } % <- bibliography text size ends
-
-
 
 \end{minipage}
 \end{minipage} % minipage for the two columns (minipages)
@@ -383,7 +384,7 @@ we present a new spectro-temporal analysis method by assuming the time-varying F
 
 
 
-\vfill % Fill the free space until the footer minipages
+% \vfill % Fill the free space until the footer minipages
 
 
 %\begin{minipage}{0.95\linewidth} % Minipages for the footers
@@ -416,7 +417,7 @@ we present a new spectro-temporal analysis method by assuming the time-varying F
 
 
 
-\vspace*{0.03\linewidth} % Increase the bottom margins
+% \vspace*{0.03\linewidth} % Increase the bottom margins
 
 
 
