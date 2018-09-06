@@ -116,7 +116,7 @@
 
 \newcommand{\sectionspace}{10mm} % Free space before each section inside a minipage
 \newcommand{\figurespace}{10mm} % Free space around figures inside a minipage (where floats are not allowed)
-
+\newcommand{\bfcolor}[2]{\textcolor{#1}{\textbf{#2}}}
 
 \begin{document}
 
@@ -216,13 +216,13 @@
 
 \section*{Introduction}
 \Large
-Atrial Fibrillation (AF) is a type of cardiac rhythm disturbance (arrhythmia) which can lead to blood clots, stroke, heart failure, or death. The aim is to automatically detect AF leveraging the recent Deep Learning (DL) techniques:
-\vspace{10mm}
+\bfcolor{aaltoFuchsia}{Atrial Fibrillation} (AF) is a type of common arrhythmia. The aim is to automatically detect AF leveraging the recent \bfcolor{aaltoBlue}{Deep Learning} (DL) techniques. Our main contribution are:
+\vspace{4mm}
 \begin{itemize}
-	\item We propose an extended spectrogram estimation method by modeling signal in state-space and use a Kalman filter and smoother for Bayesian spectral estimation
-	\item We leverage state-of-the-art Densely connected convolutional networks (DenseNet) \cite{huang2017densely} for AF detection using the proposed presentation
-	\item We evaluate the method using PhysioNet/CinC 2017 dataset, which is considered to be a challenging dataset which resembles practical applications.
+	\item Signals are modelled in state-space and we use a Kalman filter and smoother for Bayesian spectral estimation.
+	\item We combine spectrogram with Densely Connected Convolutional Networks (DenseNet) \cite{huang2017densely} for AF detection.
 \end{itemize}
+\vspace{4mm}
 \begin{minipage}[c]{\linewidth}
 	\centering
 	\includegraphics[scale=2]{figures/pre-processing}
