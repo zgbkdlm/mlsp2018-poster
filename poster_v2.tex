@@ -219,20 +219,18 @@
 \bfcolor{aaltoFuchsia}{Atrial Fibrillation} (AF) is a type of common arrhythmia. The aim is to automatically detect AF leveraging the recent \bfcolor{aaltoBlue}{Deep Learning} (DL) techniques. Our main contribution are:
 \vspace{4mm}
 \begin{itemize}
-	\item Signals are modelled in state-space and we use a Kalman filter and smoother for Bayesian spectral estimation.
-	\item We combine spectrogram with Densely Connected Convolutional Networks (DenseNet) \cite{huang2017densely} for AF detection.
+	\item Signals are modelled in state-space and we use a Kalman filter and smoother for \bfcolor{aaltoFuchsia}{Bayesian spectral estimation}.
+	\item We combine the spectral estimation with Densely Connected Convolutional Networks (DenseNet) \cite{huang2017densely} for AF detection.
 \end{itemize}
 \vspace{4mm}
 \begin{minipage}[c]{\linewidth}
 	\centering
-	\includegraphics[scale=2]{figures/pre-processing}
+	\includegraphics[scale=2.2]{figures/pre-processing}
 \end{minipage}
 
 
 \vspace{\sectionspace}
 \section*{Spectro-Temporal ECG Analysis}
-
-Different from classical transformation methods, we model the time varying spectrum with a state-space model and use Bayesian procedure (i.e., Kalman filter and smoother) for its estimation \cite{qi2002bayesian}, which does not need stationarity guarantee nor windowing. 
 
 Recall that any periodic signal with fundamental frequency $f_0$ can be expanded into a Fourier series
 
@@ -241,7 +239,7 @@ z(t) = a_0 + \sum_{j=1}^{M} \left[ a_{j} \cos(2\pi \, j \, f_0 t) + b_{j} \sin(2
 \label{equ:fourier_series}
 \end{equation}
 
-We assume that the coefficients depend on time, and we put a Gaussian process priors on them:
+We assume that the coefficients depend on time, and we put a Gaussian process priors (GP) on them:
 %
 \begin{equation}
 \begin{split}
@@ -267,7 +265,7 @@ b_j(t_k) &= \psi^b_{jk} \, b_j(t_{k-1}) + w^b_{jk}, \\
 \label{eq:discdyn}
 \end{equation}
 %
-where $\psi^a_{jk} = \exp(-\lambda^a_j \, (t_k - t_{k-1})), \psi^b_{jk} = \exp(-\lambda^b_j \, (t_k - t_{k-1}))$, $w^a_{jk} \sim \mathcal{N}(0,\Sigma^a_{jk}), w^b_{jk} \sim \mathcal{N}(0,\Sigma^b_{jk})$, $\Sigma^a_{jk} = q^a_j \, (1 - \exp(-2 \lambda^a_j \, (t_k - t_{k-1})))$, and $\Sigma^b_{jk} = q^b_j \, (1 - \exp(-2 \lambda^b_j \, (t_k - t_{k-1})))$. If we assume the input signal is noisy measurements from Fourier series \eqref{equ:fourier_series} and times $t_1,t_2,\ldots$, we can then model the time-varying system in state space, where state $\mathbf{x} = [a_{0}, a_{1}, ..., a_{M}, b_{1}, b_{2}, ..., b_{M}]^T$, and $\mathbf{H}_k = [1, \sin(2\pi f_0 t_k), \ldots, \sin(2\pi M \, f_0 \, t_k), \cos(2\pi f_0 t_k), \ldots, \cos(2\pi f_M t_j)]$, which gives $\mathbf{H}_k \mathbf{x}=z(t_k)$. The discrete-time dynamic model is written as:
+where $\psi^a_{jk} = \exp(-\lambda^a_j \, (t_k - t_{k-1})), \psi^b_{jk} = \exp(-\lambda^b_j \, (t_k - t_{k-1}))$, $w^a_{jk} \sim \mathcal{N}(0,\Sigma^a_{jk}), w^b_{jk} \sim \mathcal{N}(0,\Sigma^b_{jk})$, $\Sigma^a_{jk} = q^a_j \, (1 - \exp(-2 \lambda^a_j \, (t_k - t_{k-1})))$, and $\Sigma^b_{jk} = q^b_j \, (1 - \exp(-2 \lambda^b_j \, (t_k - t_{k-1})))$. Then we can then model the time-varying system in state space, where state $\mathbf{x} = [a_{0}, a_{1}, ..., a_{M}, b_{1}, b_{2}, ..., b_{M}]^T$, and $\mathbf{H}_k = [1, \sin(2\pi f_0 t_k), \ldots, \sin(2\pi M \, f_0 \, t_k), \cos(2\pi f_0 t_k), \ldots, \cos(2\pi f_0M t_k)]$. The discrete-time dynamic model is written as:
 
 \begin{equation}
 \begin{split}
@@ -277,7 +275,13 @@ y_k &= \mathbf{H}_k \mathbf{x}_k + r_k.
 \label{eq:dynmodel}
 \end{equation}
 
-where $\mathbf{A}_k$ contains the terms $\psi^a_{jk}$ and $\phi^b_{jk}$ on the diagonal and $ \mathbf{q}_{k} \sim \mathcal{N}(\mathbf{0},\mathbf{Q}_k)$ where $\mathbf{Q}_k$ contains the terms $\Sigma^a_{jk}$ and $\Sigma^b_{jk}$ on the diagonal.
+where $\mathbf{A}_k$ contains the terms $\psi^a_{jk}$ and $\phi^b_{jk}$ on the diagonal and $ \mathbf{q}_{k} \sim \mathcal{N}(\mathbf{0},\mathbf{Q}_k)$ where $\mathbf{Q}_k$ contains the terms $\Sigma^a_{jk}$ and $\Sigma^b_{jk}$ on the diagonal. We could then perform exact Bayesian state estimation using Kalman filter and Rauch–Tung–Striebel (RTS) smoother. 
+
+\vspace{\figurespace}
+\includegraphics[scale=1.8]{figures/densely_banner}
+\large
+\centering
+Proposed DenseNet$^+$ for AF detection.
 
 % The end of the first column and the start of the second
 \end{minipage} % no empty line before the next ``\begin''
@@ -286,7 +290,7 @@ where $\mathbf{A}_k$ contains the terms $\psi^a_{jk}$ and $\phi^b_{jk}$ on the d
  % Paragraph indent
 \Large
 
-We could then perform exact Bayesian state estimation using Kalman filter and Rauch–Tung–Striebel (RTS) smoother, and define the spectro-temporal data matrix as:
+We define the spectro-temporal data matrix as:
 \begin{equation}
 [\mathbf{S}]_{j,k} = \sqrt{\hat{a}_{j}^2(t_k) + \hat{b}_{j}^2(t_k)}.
 \label{eq:power_density}
@@ -307,50 +311,40 @@ We could then perform exact Bayesian state estimation using Kalman filter and Ra
 \end{minipage}
 \setlength{\parindent}{10mm}
 
-In order to perform AF detection, we treat (\ref{eq:power_density}) as image data and train a DenseNet for ECG classification, where the structure is shown below:
-
-\vspace{\figurespace}
-\includegraphics[scale=1.8]{figures/densely_banner}
+In order to perform AF detection, we treat (\ref{eq:power_density}) as image data and train a DenseNet for ECG classification.:
 
 
 \section*{Results}
-The algorithm is performed on the PhysioNet/CinC 2017 dataset which contains 8528 short ECG recordings (9s to 60s) at 300Hz sampling rate. For model assessment, stratified 10-fold cross-validation and F1 metrics are adopted for evaluation. Below shows the confusion matrix and score:
+The algorithm is performed on the PhysioNet/CinC 2017 dataset which contains 8528 short ECG recordings (9s to 60s) at 300Hz sampling rate. 
 
 \begin{minipage}[c]{\linewidth}
 \setlength{\parindent}{0mm}
 \vspace{\figurespace}
 \centering
-\includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_kalman}
-\includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_cwt}
-\includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_stft}
-\includegraphics[width=0.24\linewidth,trim=1.15cm 0cm 1.2cm 0cm,clip]{figures/cm_pburg}
+\includegraphics[width=0.45\linewidth,trim=1.17cm 0.4cm 3.35cm 0cm,clip]{figures/cm_kalman}
 \large
-Normalized confusion matrix on different methods.
-
-\vspace{\figurespace}
-\begin{tabular}{|l|l|c|c|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|}
 	\hline
-	& \multicolumn{1}{c|}{Methods}           & $F1_N$        & $F1_A$        & $F1_O$      & $F1_\sim$     & $F1_{overall}$  & $Std_{F1}$ & Precision \\ \hline
-	(1) & STFT + Dense18$^+$                          & 88.06          & 75.23          & 70.03        & 52.67          & 77.79          & 1.41      & 79.38          \\ \hline
-	(2) & CWT + Dense18$^+$                           & 88.77          & 78.08          & 71.79        & 53.25          & 79.55          & 1.39      & 80.73          \\ \hline
-	(3) & BurgAR + Dense18$^+$                         & 88.11          & 76.24          & 69.49        & \textbf{55.91} & 77.95          & 1.51      & 79.23          \\ \hline
-	(4) & Kalman + Dense18$^+$                        & \textbf{88.80} & \textbf{79.64} & \textbf{72.08}        & 51.78          & \textbf{80.17} & \textbf{1.06}      & \textbf{81.33} \\ \hline
-	(5) & Kalman + Dense18                       & 88.16          & 76.61          & 70.81        & 49.21          & 78.53          & 1.14      & 80.02          \\ \hline
-	(6) & Kalman + Res18                         & 87.19          & 74.98          & 68.31        & 47.01          & 76.83          & 1.08      & 78.04          \\ \hline
-	(7) & Martin & 87.8            & 79.0            & 70.1 & 65.3   & 79.0            & N/A        & 81.2           \\ \hline
-	(8) & Zhaohan                                & 87              & 80              & 68            & N/A             & 78              & N/A        & N/A             \\ \hline
+	 \multicolumn{1}{|c|}{Methods}           & $F1_{overall}$  & $Std_{F1}$ \\ \hline
+	 STFT + Dense18$^+$                          & 77.79          & 1.41       \\ \hline
+	 CWT + Dense18$^+$                           & 79.55          & 1.39      \\ \hline
+	 BurgAR + Dense18$^+$                         & 77.95          & 1.51       \\ \hline
+	 Kalman + Dense18$^+$                        & \textbf{80.17} & \textbf{1.06}       \\ \hline
+	 Kalman + Dense18                       & 78.53          & 1.14      \\ \hline
+	 Kalman + Res18                         & 76.83          & 1.08       \\ \hline
+	 Martin & 79.0            & N/A         \\ \hline
+	 Zhaohan                                & 78              & N/A         \\ \hline
 \end{tabular}
-
 \vspace{5mm}
-Results from different spectrogram estimation methods and deep CNNs.
+Normalized confusion matrix on different methods and results from different spectrogram estimation methods and deep CNNs.
 \end{minipage}
 
 \vspace{\sectionspace}
 \section*{Conclusion}
 \setlength{\parindent}{10mm}
 \begin{itemize}
-	\item A new spectro-temporal analysis method is presented by assuming the time-varying Fourier coefficients of signal have Gaussian process priors. The solution is in linear state-space and state estimation is performed by Bayesian Kalman filter/smoother. 
-	\item We combine this spectro-temporal method with deep CNNs for ECG classification. The proposed method outperforms other time-frequency analysis methods (i.e., STFT, CWT, and BurgAR) and provides the classification performance of 80.2\% for overall F1 score. 
+	\item We proposed a new spectro-temporal analysis method which models Fourier coefficients by GP prior, and estimated by Bayesian Kalman methods.
+	\item Our proposed method outperforms other time-frequency analysis methods (STFT, CWT etc.) and provides the classification performance of 80.2\% for overall F1 score. 
 \end{itemize}
 
 \begin{textblock}{24}(57,115)
