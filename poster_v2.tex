@@ -313,15 +313,16 @@ We define the spectro-temporal data matrix as:
 
 In order to perform AF detection, we treat (\ref{eq:power_density}) as image data and train a DenseNet for ECG classification.:
 
-
 \section*{Results}
 The algorithm is performed on the PhysioNet/CinC 2017 dataset which contains 8528 short ECG recordings (9s to 60s) at 300Hz sampling rate. 
 
-\begin{minipage}[c]{\linewidth}
-\setlength{\parindent}{0mm}
-\vspace{\figurespace}
-\centering
-\includegraphics[width=0.45\linewidth,trim=1.17cm 0.4cm 3.35cm 0cm,clip]{figures/cm_kalman}
+\begin{minipage}[t]{\linewidth}
+\begin{minipage}[t]{0.48\linewidth}
+	\centering
+	\includegraphics[width=0.95\linewidth,trim=1.17cm 0.4cm 3.35cm 0cm,clip]{figures/cm_kalman}
+\end{minipage}
+\begin{minipage}[t]{0.48\linewidth}
+	\vspace{-14cm}
 \large
 \begin{tabular}{|l|c|c|}
 	\hline
@@ -335,12 +336,16 @@ The algorithm is performed on the PhysioNet/CinC 2017 dataset which contains 852
 	 Martin & 79.0            & N/A         \\ \hline
 	 Zhaohan                                & 78              & N/A         \\ \hline
 \end{tabular}
-\vspace{5mm}
-Normalized confusion matrix on different methods and results from different spectrogram estimation methods and deep CNNs.
 \end{minipage}
+\end{minipage}
+
+\vspace{5mm}
+\large\centering
+Normalized confusion matrix on different methods and results from different spectrogram estimation methods and deep CNNs.
 
 \vspace{\sectionspace}
 \section*{Conclusion}
+\Large
 \setlength{\parindent}{10mm}
 \begin{itemize}
 	\item We proposed a new spectro-temporal analysis method which models Fourier coefficients by GP prior, and estimated by Bayesian Kalman methods.
