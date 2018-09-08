@@ -281,8 +281,7 @@ where $\mathbf{A}_k$ contains the terms $\psi^a_{jk}$ and $\phi^b_{jk}$ on the d
 \includegraphics[scale=1.8]{figures/densely_banner}
 \large
 \centering
-Proposed DenseNet$^+$ for AF detection.
-
+Proposed Dense18$^+$ for AF detection.
 % The end of the first column and the start of the second
 \end{minipage} % no empty line before the next ``\begin''
 \hspace{0.03\linewidth} % Middle margin
@@ -296,22 +295,24 @@ We define the spectro-temporal data matrix as:
 \label{eq:power_density}
 \end{equation}
 
-\begin{minipage}[c]{\linewidth}
+\begin{minipage}[t]{\linewidth}
 	\centering
-	\includegraphics[width=0.22\linewidth]{figures/1012}
-	\includegraphics[width=0.22\linewidth]{figures/kalman-1012-smooth-large}
-	\includegraphics[width=0.22\linewidth]{figures/3246}
-	\includegraphics[width=0.22\linewidth]{figures/ave-af-3246}
-	\\\small Normal (Rec.1012) \hspace{10cm} Atrial Fibrillation (Rec.3246)\\
-	\includegraphics[width=0.22\linewidth]{figures/1037}
-	\includegraphics[width=0.22\linewidth]{figures/ave-other-1037}
-	\includegraphics[width=0.22\linewidth]{figures/1006}
-	\includegraphics[width=0.22\linewidth]{figures/ave-noise-1006}
+	\includegraphics[width=0.4\linewidth]{figures/1012}
+	\includegraphics[width=0.4\linewidth]{figures/kalman-1012-smooth-large}
+	\includegraphics[width=0.4\linewidth]{figures/3246}
+	\includegraphics[width=0.4\linewidth]{figures/ave-af-3246}
+	\\\small Normal (Rec.1012, top) and Atrial Fibrillation (Rec.3246, bottom)\\
+	\vspace{5mm}
+	\includegraphics[width=0.247\linewidth]{figures/1037}
+	\includegraphics[width=0.245\linewidth]{figures/ave-other-1037}
+	\includegraphics[width=0.245\linewidth]{figures/1006}
+	\includegraphics[width=0.245\linewidth]{figures/ave-noise-1006}
 	\\Others (Rec.1037) \hspace{11cm} Noisy (Rec.1006)
 \end{minipage}
-\setlength{\parindent}{10mm}
 
-In order to perform AF detection, we treat (\ref{eq:power_density}) as image data and train a DenseNet for ECG classification.:
+\setlength{\parindent}{10mm}
+\vspace{10mm}
+In order to perform AF detection, we treat (\ref{eq:power_density}) as image data and train a DenseNet for ECG classification.
 
 \section*{Results}
 The algorithm is performed on the PhysioNet/CinC 2017 dataset which contains 8528 short ECG recordings (9s to 60s) at 300Hz sampling rate. 
